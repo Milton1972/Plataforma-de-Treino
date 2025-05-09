@@ -1,0 +1,959 @@
+import React, { useState, useEffect } from 'react';
+
+
+// Componente para o cabeçalho do aplicativo
+
+const Cabeçalho = () => {
+
+retornar (
+
+<div className="bg-blue-600 text-white p-4 shadow-md">
+
+<h1 className="text-2xl font-bold text-center">App de Treino de Musculação</h1>
+
+</div>
+
+);
+
+};
+
+
+Usuário Classe
+
+class Usuário {
+
+constructor(nome, peso, altura, objetivoTreino) {
+
+this.name = nome;
+
+this.peso = peso;
+
+this.altura = altura;
+
+this.objetivoTreino = objetivoTreino;
+
+}
+
+
+calcularIMC() {
+
+return (this.peso / (this.altura * this.altura)).toFixed(2);
+
+}
+
+
+exibirDados() {
+
+retornar {
+
+Nome: this.name,
+
+peso: this.peso,
+
+altura: this.altura,
+
+objetivo: this.objectiveTreino,
+
+imc: this.calcularIMC()
+
+};
+
+}
+
+}
+
+
+// Classe Treino
+
+class Treino {
+
+constructor(typeTreino, numSeries, numRepeticoes, exercices = []) {
+
+this.tipoTreino = tipoTreino;
+
+this.numSeries = numSeries;
+
+this.numRepeticoes = numRepeticoes;
+
+this.exercicios = exercicios;
+
+}
+
+
+exibirTreino() {
+
+retornar {
+
+tipoTreino: this.tipoTreino,
+
+série: this.numSeries,
+
+repeticoes: this.numRepeticoes,
+
+exercicios: this.exercicios
+
+};
+
+}
+
+}
+
+
+// Componente para formulário de cadastro de usuário
+
+const FormUser = ({ setUser }) = > {
+
+const [nome, setNome] = useState('');
+
+const [peso, setPeso] = useState('');
+
+const[altura, setHeight] = useState('');
+
+const[target, setTarget] = useState('Hipertrofia');
+
+
+const handleSubmit = (e) => {
+
+e.preventDefault();
+
+const novoUser = new User(nome, parseFloat(peso), parseFloat(altura), target);
+
+setUser(novoUser);
+
+Salvar no localStorage
+
+localStorage.setItem('usuário', JSON.stringify(novoUser));
+
+};
+
+
+retornar (
+
+<div className="bg-branco p-6 arredondado-lg sombra-md">
+
+<h2 className="text-xl font-semibold mb-4 text-gray-800">Cadastro de Usuário</h2>
+
+<formulário onSubmit={handleSubmit}>
+
+<div className="mb-4">
+
+<label className="block text-gray-700 mb-2">Nome:</label>
+
+< entrada
+
+tipo="texto"
+
+valor={nome}
+
+onChange={(e) => setNome(e.target.value)}
+
+className="w-full p-2 border border-gray-300 arredondado"
+
+Necessário
+
+/>
+
+</div>
+
+<div className="mb-4">
+
+<label className="block text-gray-700 mb-2">Peso (kg):</label>
+
+< entrada
+
+tipo="número"
+
+valor={peso}
+
+onChange={(e) => setWeight(e.target.value)}
+
+className="w-full p-2 border border-gray-300 arredondado"
+
+passo = "0,1"
+
+Necessário
+
+/>
+
+</div>
+
+<div className="mb-4">
+
+<label className="bloco texto-cinza-700 mb-2">Altura (m):</label>
+
+< entrada
+
+tipo="número"
+
+value={altura}
+
+onChange={(e) => setAltura(e.target.value)}
+
+className="w-full p-2 border border-gray-300 arredondado"
+
+passo="0,01"
+
+Necessário
+
+/>
+
+</div>
+
+<div className="mb-4">
+
+<label className="block text-gray-700 mb-2">Objetivo:</label>
+
+<selecione
+
+valor={objetivo}
+
+onChange={(e) => setObjetivo(e.target.value)}
+
+className="w-full p-2 border border-gray-300 arredondado"
+
+Necessário
+
+>
+
+<valor da opção="Hipertrofia">Hipertrofia</opção>
+
+<option value="Emagrecimento">Emagrecimento</option>
+
+<option value="Resistência">Resistência</option>
+
+<option value="Condicionamento">Condicionamento</option>
+
+</selecionar>
+
+</div>
+
+<botão
+
+tipo="enviar"
+
+className="bg-blue-600 texto-branco py-2 px-4 pairar arredondado:bg-blue-700"
+
+>
+
+Salvar
+
+</botão>
+
+</formulário>
+
+</div>
+
+);
+
+};
+
+
+// Componente para exibir dados do usuário
+
+const ExibirUser = ({ user }) => {
+
+if (!user) retorna nulo;
+
+  
+
+const dados = usuario.exibirDados();
+
+  
+
+retornar (
+
+<div className="bg-branco p-6 arredondado-lg sombra-md">
+
+<h2 className="text-xl font-semibold mb-4 text-gray-800">Informações do Usuário</h2>
+
+<div className="border-t border-gray-200 pt-4">
+
+<p className="mb-2"><strong>Nome:</strong> {dados.nome}</p>
+
+<p className="mb-2"><strong>Weight:</strong> {dados.peso} kg</p>
+
+<p className="mb-2"><strong>Height:</strong> {dados.height} m</p>
+
+<p className="mb-2"><strong>Objetivo:</strong> {dados.objetivo}</p>
+
+<p className="mb-2"><strong>IMC:</strong> {dados.imc} ({interpretIMC(dados.imc)})</p>
+
+</div>
+
+</div>
+
+);
+
+};
+
+
+// Função para interpretar o IMC
+
+const interpretarIMC = (IMC) => {
+
+imc = parseFloat(imc);
+
+if (imc < 18.5) return "Abaixo do peso";
+
+se (imc < 24.9) retornar "Peso normal";
+
+se (imc < 29.9) retornar "Sobrepeso";
+
+if (imc < 34.9) return "Obesidade grau 1";
+
+if (imc < 39.9) return "Obesidade grau 2";
+
+return "Obesidade grau 3";
+
+};
+
+
+// Componente para formulário de criação de treino
+
+const FormularioTreino = ({ setTreino, objetivo }) => {
+
+const [tipoTreino, setTipoTreino] = useState(objetivo || 'Hipertrofia');
+
+const [série, sérieConjunto] = useState(4);
+
+const [repetições, setRepeticoes] = useState(12);
+
+const [novoExercicio, setNovoExercicio] = useState('');
+
+const [exercicios, setExercicios] = useState([]);
+
+
+useEffect(() = > {
+
+if (destino) {
+
+setTipoTreino(objetivo);
+
+      
+
+// Ajustar series e repetições de acordo com o objetivo
+
+if (alvo=== 'Hipertrofia') {
+
+série(4);
+
+setRepeticoes(12);
+
+} else if (objetivo === 'Emagrecimento') {
+
+série(4);
+
+setRepeticoes(15);
+
+} else if (objetivo === 'Resistência') {
+
+série(3);
+
+setRepeticoes(20);
+
+} else if (objetivo === 'Condicionamento') {
+
+série(5);
+
+setRepeticoes(10);
+
+}
+
+}
+
+}, [objetivo]);
+
+
+const adicionarExercicio = () => {
+
+if (novoExercicio.trim()) {
+
+Os Sete Exercícios ([...] (Exercícios, Exercícios)
+
+setNovoExercicio('');
+
+}
+
+};
+
+
+const removerExercicio = (índice) => {
+
+novos exercícios = [... Exercícios;
+
+novosExercicios.splice(índice, 1);
+
+Exercícios (novos exercícios);
+
+};
+
+
+const handleSubmit = (e) => {
+
+e.preventDefault();
+
+const novoTreino = new Treino(tipoTreino, parseInt(series), parseInt(repeticoes), exercicios);
+
+setTreino(novoTreino);
+
+Salvar no localStorage
+
+localStorage.setItem('treino', JSON.stringify(novoTreino));
+
+};
+
+
+retornar (
+
+<div className="bg-branco p-6 arredondado-lg sombra-md">
+
+<h2 className="text-xl font-semibold mb-4 text-gray-800">Configurar Treino</h2>
+
+<formulário onSubmit={handleSubmit}>
+
+<div className="mb-4">
+
+<label className="block text-gray-700 mb-2">Tipo de Treino:</label>
+
+<selecione
+
+value={tipoTreino}
+
+onChange={(e) => setTipoTreino(e.target.value)}
+
+className="w-full p-2 border border-gray-300 arredondado"
+
+>
+
+<valor da opção="Hipertrofia">Hipertrofia</opção>
+
+<option value="Emagrecimento">Emagrecimento</option>
+
+<option value="Resistência">Resistência</option>
+
+<option value="Condicionamento">Condicionamento</option>
+
+</selecionar>
+
+</div>
+
+<div className="mb-4">
+
+<label className="block text-gray-700 mb-2">Número de Séries:</label>
+
+< entrada
+
+tipo="número"
+
+valor={série}
+
+onChange={(e) => setSeries(e.target.value)}
+
+className="w-full p-2 border border-gray-300 arredondado"
+
+min = "1"
+
+Necessário
+
+/>
+
+</div>
+
+<div className="mb-4">
+
+<label className="block text-gray-700 mb-2">Repetições por Série:</label>
+
+< entrada
+
+tipo="número"
+
+valor={repetições}
+
+onChange={(e) => setRepeticoes(e.target.value)}
+
+className="w-full p-2 border border-gray-300 arredondado"
+
+min = "1"
+
+Necessário
+
+/>
+
+</div>
+
+<div className="mb-4">
+
+<label className="block text-gray-700 mb-2">Adicionar Exercícios:</label>
+
+<div className="flex">
+
+< entrada
+
+tipo="texto"
+
+valor={novoExercicio}
+
+onChange={(e) => setNovoExercicio(e.target.value)}
+
+className="flex-grow p-2 borda borda-cinza-300 arredondado-l"
+
+placeholder="Nome do exercício"
+
+/>
+
+<botão
+
+tipo="botão"
+
+onClick={adicionarExercicio}
+
+className="bg-green-500 text-white p-2 arredondado-r hover:bg-green-600"
+
+>
+
++
+
+</botão>
+
+</div>
+
+</div>
+
+        
+
+{exercicios.length > 0 && (
+
+<div className="mb-4">
+
+<label className="block text-gray-700 mb-2">Exercícios no Treino:</label>
+
+<ul className="border border-gray-200 arredondado p-2">
+
+{exercicios.map((exercicio, index) => (
+
+<li key={index} className="flex justify-between items-center py-2 border-b border-gray-100 last:border-b-0">
+
+{Exercício}
+
+<botão
+
+tipo="botão"
+
+onClick={() => removerExercicio(index)}
+
+className="texto-vermelho-500 hover:texto-vermelho-700"
+
+>
+
+X
+
+</botão>
+
+</li>
+
+))}
+
+</ul>
+
+</div>
+
+)}
+
+        
+
+<botão
+
+tipo="enviar"
+
+className="bg-blue-600 texto-branco py-2 px-4 pairar arredondado:bg-blue-700"
+
+>
+
+Salvar Treino
+
+</botão>
+
+</formulário>
+
+</div>
+
+);
+
+};
+
+
+// Componente para exibir detalhes do treino
+
+const ExibirTreino = ({ treino }) => {
+
+if (!treino) return null;
+
+  
+
+const dados = treino.exibirTreino();
+
+  
+
+retornar (
+
+<div className="bg-branco p-6 arredondado-lg sombra-md">
+
+<h2 className="text-xl font-semibold mb-4 text-gray-800">Plano de Treino</h2>
+
+<div className="border-t border-gray-200 pt-4">
+
+<p className="mb-2"><strong>Tipo de Treino:</strong> {dados.tipoTreino}</p>
+
+< className="mb-2"><strong>Séries:</strong> {dados.series}</p>
+
+<p className="mb-2"><strong>Repetições por série:</strong> {dados.repeticoes}</p>
+
+        
+
+        {dados.exercicios && dados.exercicios.length > 0 && (
+
+          <>
+
+            <p className="mt-4 mb-2 font-semibold">Exercícios:</p>
+
+            <ul className="list-disc pl-5">
+
+              {dados.exercicios.map((exercicio, index) => (
+
+                <li key={index}>{exercicio} - {dados.series} x {dados.repeticoes}</li>
+
+              ))}
+
+            </ul>
+
+          </>
+
+        )}
+
+      </div>
+
+    </div>
+
+  );
+
+};
+
+
+// Componente principal do App
+
+const App = () => {
+
+  const [usuario, setUsuario] = useState(null);
+
+  const [treino, setTreino] = useState(null);
+
+  const [aba, setAba] = useState('usuario'); // 'usuario', 'treino', 'visualizar'
+
+  
+
+  // Carregar dados do localStorage ao iniciar
+
+  useEffect(() => {
+
+    const usuarioSalvo = localStorage.getItem('usuario');
+
+    const treinoSalvo = localStorage.getItem('treino');
+
+    
+
+    if (usuarioSalvo) {
+
+      const dadosUsuario = JSON.parse(usuarioSalvo);
+
+      setUsuario(new Usuario(
+
+        dadosUsuario.nome,
+
+        dadosUsuario.peso,
+
+        dadosUsuario.altura,
+
+        dadosUsuario.objetivoTreino
+
+      ));
+
+    }
+
+    
+
+    if (treinoSalvo) {
+
+      const dadosTreino = JSON.parse(treinoSalvo);
+
+      setTreino(new Treino(
+
+        dadosTreino.tipoTreino,
+
+        dadosTreino.numSeries,
+
+        dadosTreino.numRepeticoes,
+
+        dadosTreino.exercicios
+
+      ));
+
+    }
+
+  }, []);
+
+
+  // Alternar para a aba de treino quando um usuário for salvo
+
+  useEffect(() => {
+
+    if (usuario && aba === 'usuario') {
+
+      setAba('treino');
+
+    }
+
+  }, [usuario]);
+
+
+  // Alternar para a aba de visualização quando um treino for salvo
+
+  useEffect(() => {
+
+    if (treino && aba === 'treino') {
+
+      setAba('visualizar');
+
+    }
+
+  }, [treino]);
+
+
+  const limparDados = () => {
+
+    localStorage.removeItem('usuario');
+
+    localStorage.removeItem('treino');
+
+    setUsuario(null);
+
+    setTreino(null);
+
+    setAba('usuario');
+
+  };
+
+
+  return (
+
+    <div className="min-h-screen bg-gray-100">
+
+      <Header />
+
+      
+
+      <div className="container mx-auto p-4">
+
+        <div className="flex justify-center mb-4">
+
+          <div className="bg-white rounded-lg shadow overflow-hidden">
+
+            <div className="flex">
+
+              <button
+
+                className={`px-4 py-2 font-medium ${
+
+                  aba === 'usuario' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'
+
+                }`}
+
+                onClick={() => setAba('usuario')}
+
+              >
+
+                Usuário
+
+              </button>
+
+              <button
+
+                className={`px-4 py-2 font-medium ${
+
+                  aba === 'treino' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'
+
+                }`}
+
+                onClick={() => setAba('treino')}
+
+                disabled={!usuario}
+
+              >
+
+                Treino
+
+              </button>
+
+              <button
+
+                className={`px-4 py-2 font-medium ${
+
+                  aba === 'visualizar' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'
+
+                }`}
+
+                onClick={() => setAba('visualizar')}
+
+                disabled={!treino}
+
+              >
+
+                Visualizar
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        {aba === 'usuario' && (
+
+          <>
+
+            {!usuario ? (
+
+              <FormularioUsuario setUsuario={setUsuario} />
+
+            ) : (
+
+              <div className="space-y-4">
+
+                <ExibirUsuario usuario={usuario} />
+
+                <div className="flex justify-center">
+
+                  <button
+
+                    onClick={() => setAba('treino')}
+
+                    className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 mr-2"
+
+                  >
+
+                    Configurar Treino
+
+                  </button>
+
+                  <button
+
+                    onClick={() => {
+
+                      setUsuario(null);
+
+                      localStorage.removeItem('usuario');
+
+                    }}
+
+                    className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700"
+
+                  >
+
+                    Editar Dados
+
+                  </button>
+
+                </div>
+
+              </div>
+
+            )}
+
+          </>
+
+        )}
+
+
+        {aba === 'treino' && (
+
+          <>
+
+            {usuario && (
+
+              <div className="space-y-4">
+
+                <ExibirUsuario usuario={usuario} />
+
+                <FormularioTreino 
+
+                  setTreino={setTreino} 
+
+                  objetivo={usuario.objetivoTreino} 
+
+                />
+
+              </div>
+
+            )}
+
+          </>
+
+        )}
+
+
+        {aba === 'visualizar' && (
+
+          <>
+
+            {usuario && treino && (
+
+              <div className="space-y-4">
+
+                <ExibirUsuario usuario={usuario} />
+
+                <ExibirTreino treino={treino} />
+
+                <div className="flex justify-center mt-4">
+
+                  <button
+
+                    onClick={() => setAba('treino')}
+
+                    className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 mr-2"
+
+                  >
+
+                    Editar Treino
+
+                  </button>
+
+                  <button
+
+                    onClick={limparDados}
+
+                    className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700"
+
+                  >
+
+                    Reiniciar
+
+                  </button>
+
+                </div>
+
+              </div>
+
+            )}
+
+          </>
+
+        )}
+
+      </div>
+
+    </div>
+
+  );
+
+};
